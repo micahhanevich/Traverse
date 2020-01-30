@@ -45,6 +45,8 @@ namespace Traverse
                         break;
                 }
             }
+
+            BiomePossibilities = exArray;
         }
 
         public Location GenerateRandomBiome()

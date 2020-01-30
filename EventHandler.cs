@@ -44,7 +44,7 @@ namespace Traverse
         }
         private void Where()
         {
-            Game.Print($"You are in a {Game.Player.Location.Biome.ToUpper()}");
+            Game.Print($"You are in a {Game.Player.Location.PrintName.ToUpper()}");
         }
         private void Go()
         {
@@ -89,6 +89,31 @@ namespace Traverse
                         }
                         catch { Game.Print(" Please provide the desired text speed."); }
                         break;
+
+                    case "biome":
+                    case "loctype":
+                        if (!Game.DebugMode) { Game.Print($" Invalid Second Parameter: {Game.IO.LastOutput[1]}"); break; }
+
+                        try
+                        {
+                            switch (Game.IO.LastOutput[2])
+                            {
+                                case "forest":
+                                    Game.Player.Location = new Forest();
+                                    break;
+                                case "desert":
+                                    Game.Player.Location = new Desert();
+                                    break;
+                                case "mountain":
+                                    Game.Player.Location = new Mountain();
+                                    break;
+                                default:
+                                    break;
+                            }
+                            Where();
+                        }
+                        catch { Game.Print(" Please provide the desired biome."); }
+                        break;
                 }
             }
             catch { Game.Print(" Please enter a second parameter if using Set."); }
@@ -107,7 +132,7 @@ namespace Traverse
 
         private void GetTextSpeed()
         {
-            Game.IO.Print("How quickly would you like text to print? (Slow, Normal, Fast, Instant)");
+            Game.Print("How quickly would you like text to print? (Slow, Normal, Fast, Instant)");
             Game.IO.Process(Game.Read(), false);
 
             while (Game.IO.LastInput != "slow" && Game.IO.LastInput != "normal" && Game.IO.LastInput != "fast" && Game.IO.LastInput != "instant"
@@ -116,9 +141,9 @@ namespace Traverse
                 if (Game.IO.LastOutput.Contains("debug"))
                 {
                     Game.DebugMode = !Game.DebugMode;
-                    Game.IO.Print($"Debug Mode: {Game.DebugMode}");
+                    Game.Print($"Debug Mode: {Game.DebugMode}");
                 }
-                Game.IO.Print("Please enter Slow, Normal, Fast, or Instant");
+                Game.Print("Please enter Slow, Normal, Fast, or Instant");
                 Game.IO.Process(Game.Read(), false);
             }
 
@@ -149,12 +174,14 @@ namespace Traverse
                     Game.TextSpeed = Game.TextSpeeds.Instant;
                     Game.TextSpeedInt = 0;
                     break;
+                default:
+                    break;
             }
         }
 
         private void GetMapSize()
         {
-            Game.IO.Print("How large would you like the map? (Small, Medium, Large)");
+            Game.Print("How large would you like the map? (Small, Medium, Large)");
             Game.IO.Process(Game.Read(), false);
 
             while (Game.IO.LastInput != "small" && Game.IO.LastInput != "medium" && Game.IO.LastInput != "large" 
@@ -163,9 +190,9 @@ namespace Traverse
                 if (Game.IO.LastInput.Contains("debug"))
                 {
                     Game.DebugMode = !Game.DebugMode;
-                    Game.IO.Print($"Debug Mode: {Game.DebugMode}");
+                    Game.Print($"Debug Mode: {Game.DebugMode}");
                 }
-                Game.IO.Print("Please enter Small, Medium, or Large.");
+                Game.Print("Please enter Small, Medium, or Large.");
                 Game.IO.Process(Game.Read(), false);
             }
 
@@ -184,7 +211,7 @@ namespace Traverse
                     Game.MapSize = Game.MapSizes.Large;
                     break;
                 default:
-                    Game.IO.Print("MapSize error occured. Please restart your game.");
+                    Game.Print("MapSize error occured. Please restart your game.");
                     Game.MapSize = Game.MapSizes.Large;
                     break;
             }
@@ -196,7 +223,7 @@ namespace Traverse
 
         private void InitializeMap()
         {
-            Location startingLoc = new Location("forest");
+            Location startingLoc = new Forest();
             Game.Player.Location = startingLoc;
 
             switch (Game.MapSize)
