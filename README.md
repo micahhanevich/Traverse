@@ -1,2 +1,2 @@
-# Traverse
-An exploration-based text adventure game being developed by Micah Hanevich.
+## Welcome to Traverse
+More will be added to this in the future. Be sure to stay updated!
