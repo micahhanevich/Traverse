@@ -24,6 +24,8 @@ namespace Traverse
 
         public static Random RNG = new Random();
 
+        public static RNGHandler RNGHandler = new RNGHandler();
+
         public static Player Player = new Player();
 
         // -------------------------------------------------------

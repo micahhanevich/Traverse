@@ -8,11 +8,10 @@ namespace Traverse
 {
     class RNGHandler
     {
-        Location[] BiomePossibilities;
+        private Location[] BiomePossibilities;
 
         public RNGHandler()
         {
-
             Location[] exArray = new Location[8];
 
             for (int i = 0; i < Game.Biomes.Length; i++)
@@ -49,13 +48,22 @@ namespace Traverse
             BiomePossibilities = exArray;
         }
 
-        public Location GenerateRandomBiome()
+        public Location GenBiome()
         {
-            Location ChosenBiome = new Forest();
+            double seed = Game.RNG.NextDouble();
 
+            double lastval = 0.00;
 
+            for (int i = 0; i < BiomePossibilities.Length; i++)
+            {
+                if (seed >= lastval && seed < BiomePossibilities[i].TestChance + lastval)
+                {
+                    return BiomePossibilities[i];
+                }
+                lastval += BiomePossibilities[i].TestChance;
+            }
 
-            return ChosenBiome;
+            return new Forest();
         }
 
     }
