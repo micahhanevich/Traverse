@@ -25,6 +25,10 @@ namespace Traverse
                 case "set":
                     Set();
                     break;
+                case "test":
+                    if (!Game.DebugMode) { Game.Print($"Invalid Command. (use ? or help)"); break; }
+                    Test();
+                    break;
             }
         }
 
@@ -43,10 +47,12 @@ namespace Traverse
                 " Set <param>    - Sets a background parameter's value.\n" +
                 " Quit           - Quits the game.");
         }
+
         private void Where()
         {
             Game.Print($"You are in a {Game.Player.Location.PrintName.ToUpper()}");
         }
+
         private void Go()
         {
             try
@@ -55,27 +61,33 @@ namespace Traverse
                 {
                     case "north":
                     case "n":
+                        Game.Player.Move(Game.Directions.N);
                         Game.Print("Moved North");
-                        RNGHandler rng = new RNGHandler();
                         break;
                     case "south":
                     case "s":
+                        Game.Player.Move(Game.Directions.S);
                         Game.Print("Moved South");
                         break;
                     case "east":
                     case "e":
+                        Game.Player.Move(Game.Directions.E);
                         Game.Print("Moved East");
                         break;
                     case "west":
                     case "w":
+                        Game.Player.Move(Game.Directions.W);
                         Game.Print("Moved West");
                         break;
                     default:
                         throw new Exception();
                 }
+
+                Where();
             }
             catch { Game.Print(" Please provide a valid direction to move in. (N|S|E|W)"); }
         }
+
         private void Set()
         {
             try
@@ -121,13 +133,13 @@ namespace Traverse
                             switch (Game.IO.LastOutput[2])
                             {
                                 case "forest":
-                                    Game.Player.Location = new Forest();
+                                    Game.Player.Location = new Forest(Game.RNG.NextDouble());
                                     break;
                                 case "desert":
-                                    Game.Player.Location = new Desert();
+                                    Game.Player.Location = new Desert(Game.RNG.NextDouble());
                                     break;
                                 case "mountain":
-                                    Game.Player.Location = new Mountain();
+                                    Game.Player.Location = new Mountain(Game.RNG.NextDouble());
                                     break;
                                 default:
                                     break;
@@ -141,12 +153,41 @@ namespace Traverse
             catch { Game.Print(" Please enter a second parameter if using Set."); }
         }
 
+        private void Test()
+        {
+            try
+            {
+                switch (Game.IO.LastOutput[1])
+                {
+                    case "genbiome":
+                        var outvar = Game.RNGHandler.GenBiome();
+                        Game.Print($"Test [genbiome]: {outvar.PrintName}\n" +
+                            $"Seed: {outvar.Seed.ToString()}", true, 1);
+                        break;
+                    case "gridloc":
+                        Game.Print($"Test [gridloc]:\n" +
+                            $"x = {Game.Player.GridLoc[0]}\n" +
+                            $"y = {Game.Player.GridLoc[1]}");
+                        break;
+                    default:
+                        throw new Exception();
+                }
+            }
+            catch { Game.Print(" Please provide a valid testable function."); }
+        }
+
         public void Intro()
         {
             GetTextSpeed();
             GetMapSize();
 
             InitializeMap();
+
+            double mapLength = Game.Map.Length;
+            Game.Player.GridLoc = new int[] { (int)(Math.Sqrt(mapLength) / 2), (int)(Math.Sqrt(mapLength) / 2) };
+            Location startingLoc = new Forest(Game.RNG.NextDouble());
+            Game.Player.Location = startingLoc;
+            Game.Map[Game.GetPlayerPos('x'), Game.GetPlayerPos('y')] = startingLoc;
 
             Console.Clear();
             StartGame();
@@ -245,9 +286,6 @@ namespace Traverse
 
         private void InitializeMap()
         {
-            Location startingLoc = new Forest();
-            Game.Player.Location = startingLoc;
-
             switch (Game.MapSize)
             {
                 case Game.MapSizes.Small:

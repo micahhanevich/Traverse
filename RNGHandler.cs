@@ -12,40 +12,40 @@ namespace Traverse
 
         public RNGHandler()
         {
-            Location[] exArray = new Location[8];
+            List<Location> exArray = new List<Location>();
 
             for (int i = 0; i < Game.Biomes.Length; i++)
             {
                 switch (Game.Biomes[i])
                 {
                     case ("forest"):
-                        exArray.Append(new Forest());
+                        exArray.Add(new Forest(0));
                         break;
                     case ("desert"):
-                        exArray.Append(new Desert());
+                        exArray.Add(new Desert(0));
                         break;
                     case ("mountain"):
-                        exArray.Append(new Mountain());
+                        exArray.Add(new Mountain(0));
                         break;
                     case ("plains"):
-                        exArray.Append(new Plains());
+                        exArray.Add(new Plains(0));
                         break;
                     case ("lake"):
-                        exArray.Append(new Lake());
+                        exArray.Add(new Lake(0));
                         break;
                     case ("sforest"):
-                        exArray.Append(new SnowForest());
+                        exArray.Add(new SnowForest(0));
                         break;
                     case ("splains"):
-                        exArray.Append(new SnowPlains());
+                        exArray.Add(new SnowPlains(0));
                         break;
                     case ("slake"):
-                        exArray.Append(new FrozenLake());
+                        exArray.Add(new FrozenLake(0));
                         break;
                 }
             }
 
-            BiomePossibilities = exArray;
+            BiomePossibilities = exArray.ToArray();
         }
 
         public Location GenBiome()
@@ -58,12 +58,11 @@ namespace Traverse
             {
                 if (seed >= lastval && seed < BiomePossibilities[i].TestChance + lastval)
                 {
-                    return BiomePossibilities[i];
+                    return BiomePossibilities[i].Copy(seed);
                 }
                 lastval += BiomePossibilities[i].TestChance;
             }
-
-            return new Forest();
+            throw new Exception();
         }
 
     }

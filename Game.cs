@@ -8,7 +8,7 @@ namespace Traverse
 {
     static class Game
     {
-        public static string[] Commands { get; } = new string[] { "help", "?", "where", "go", "set", "quit" };
+        public static string[] Commands { get; } = new string[] { "help", "?", "where", "go", "move", "set", "test", "quit" };
 
         public static string[] Biomes { get; } = new string[] { "forest", "desert", "mountain" };
 
@@ -17,6 +17,8 @@ namespace Traverse
         public enum TextSpeeds { Slow, Normal, Fast, Instant };
 
         public enum Discoverables { Item, Creature, Structure };
+
+        public enum Directions { N, S, E, W };
 
         public static IOHandler IO = new IOHandler();
 
@@ -55,6 +57,13 @@ namespace Traverse
         public static string Read()
         {
             return IO.Read();
+        }
+
+        public static int GetPlayerPos(char dimension)
+        {
+            if (dimension == 'x') return Player.GridLoc[0];
+            else if (dimension == 'y') return Player.GridLoc[1];
+            else return -1;
         }
     }
 }
