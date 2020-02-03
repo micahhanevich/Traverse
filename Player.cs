@@ -41,6 +41,19 @@ namespace Traverse
 
                     break;
                 case Game.Directions.S:
+
+                    if (GridLoc[1] >= Game.Map.GetLength(1) - 1) { targetLoc = new int[] { GridLoc[0], 0 }; }
+                    else { targetLoc = new int[] { GridLoc[0], GridLoc[1] + 1 }; }
+
+                    GridLoc[0] = targetLoc[0]; GridLoc[1] = targetLoc[1];
+                    Location = Game.Map[GridLoc[0], GridLoc[1]];
+
+                    if (Location == null)
+                    {
+                        Game.Map[GridLoc[0], GridLoc[1]] = Game.RNGHandler.GenBiome();
+                        Location = Game.Map[GridLoc[0], GridLoc[1]];
+                    }
+
                     break;
                 case Game.Directions.E:
                     break;

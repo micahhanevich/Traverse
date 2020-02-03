@@ -33,11 +33,11 @@ namespace Traverse
 
             for (int i = 0; i < splitInput.Length; i++)
             {
-                if (Game.DebugMode) Print($"# {i}: [{splitInput[i]}]");
+                if (Game.DebugMode) Print($" # {i}: [{splitInput[i]}]");
             }
 
             if (Game.Commands.Contains(LastOutput[0]) && enableCommandHandling) Game.EvHandler.CommandEvent(LastOutput);
-            else if (enableCommandHandling) Print("Invalid Command. (use ? or help)");
+            else if (enableCommandHandling) Print(" Invalid Command. (use ? or help)");
         }
 
         public void Print(string text, bool startline = true, int newlines = 1)

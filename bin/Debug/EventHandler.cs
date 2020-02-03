@@ -36,6 +36,7 @@ namespace Traverse
         {
             Game.Print("What do you do?");
             Game.IO.Process(Game.Read());
+            Game.Print("O\\--o---o---o--/O\\--o---o---o--/O");
         }
 
         private void Help()
@@ -148,9 +149,11 @@ namespace Traverse
                         }
                         catch { Game.Print(" Please provide the desired biome."); }
                         break;
+                    default:
+                        throw new Exception();
                 }
             }
-            catch { Game.Print(" Please enter a second parameter if using Set."); }
+            catch { Game.Print(" Please enter a valid second parameter."); }
         }
 
         private void Test()
@@ -161,13 +164,14 @@ namespace Traverse
                 {
                     case "genbiome":
                         var outvar = Game.RNGHandler.GenBiome();
-                        Game.Print($"Test [genbiome]: {outvar.PrintName}\n" +
-                            $"Seed: {outvar.Seed.ToString()}", true, 1);
+                        Game.Print($" Test [genbiome] Results\n" +
+                            $" # {{{outvar.PrintName}}}\n" +
+                            $" # {{{outvar.Seed.ToString()}}}", true, 1);
                         break;
                     case "gridloc":
-                        Game.Print($"Test [gridloc]:\n" +
-                            $"x = {Game.Player.GridLoc[0]}\n" +
-                            $"y = {Game.Player.GridLoc[1]}");
+                        Game.Print($" Test [gridloc] Results\n" +
+                            $" # {{x: {Game.Player.GridLoc[0]}}}\n" +
+                            $" # {{y: {Game.Player.GridLoc[1]}}}");
                         break;
                     default:
                         throw new Exception();
@@ -195,7 +199,7 @@ namespace Traverse
 
         private void GetTextSpeed()
         {
-            Game.Print("How quickly would you like text to print? (Slow, Normal, Fast, Instant)");
+            Game.Print(" How quickly would you like text to print? (Slow, Normal, Fast, Instant)");
             Game.IO.Process(Game.Read(), false);
 
             while (Game.IO.LastInput != "slow" && Game.IO.LastInput != "normal" && Game.IO.LastInput != "fast" && Game.IO.LastInput != "instant"
@@ -204,9 +208,9 @@ namespace Traverse
                 if (Game.IO.LastOutput.Contains("debug"))
                 {
                     Game.DebugMode = !Game.DebugMode;
-                    Game.Print($"Debug Mode: {Game.DebugMode}");
+                    Game.Print($" Debug Mode: {Game.DebugMode}");
                 }
-                Game.Print("Please enter Slow, Normal, Fast, or Instant");
+                Game.Print(" Please enter Slow, Normal, Fast, or Instant");
                 Game.IO.Process(Game.Read(), false);
             }
 
@@ -244,7 +248,7 @@ namespace Traverse
 
         private void GetMapSize()
         {
-            Game.Print("How large would you like the map? (Small, Medium, Large)");
+            Game.Print(" How large would you like the map? (Small, Medium, Large)");
             Game.IO.Process(Game.Read(), false);
 
             while (Game.IO.LastInput != "small" && Game.IO.LastInput != "medium" && Game.IO.LastInput != "large" 
@@ -253,9 +257,9 @@ namespace Traverse
                 if (Game.IO.LastInput.Contains("debug"))
                 {
                     Game.DebugMode = !Game.DebugMode;
-                    Game.Print($"Debug Mode: {Game.DebugMode}");
+                    Game.Print($" Debug Mode: {Game.DebugMode}");
                 }
-                Game.Print("Please enter Small, Medium, or Large.");
+                Game.Print(" Please enter Small, Medium, or Large.");
                 Game.IO.Process(Game.Read(), false);
             }
 
@@ -274,12 +278,12 @@ namespace Traverse
                     Game.MapSize = Game.MapSizes.Large;
                     break;
                 default:
-                    Game.Print("MapSize error occured. Please restart your game.");
+                    Game.Print(" MapSize error occured. Please restart your game.");
                     Game.MapSize = Game.MapSizes.Large;
                     break;
             }
 
-            Game.Print($"Map Size Selected: {Game.MapSize}");
+            Game.Print($" Map Size Selected: {Game.MapSize}");
             Game.Print("Press any key to continue...", false, 0);
             Console.ReadKey();
         }
