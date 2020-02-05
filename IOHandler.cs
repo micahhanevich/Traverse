@@ -51,7 +51,7 @@ namespace Traverse
                 else if (text[i] != ' ' && text[i] != '[' && text[i] != ']') { Thread.Sleep(Game.TextSpeedInt); }
             }
             for (int i = 0; i < newlines; i++ ) { Console.Write("\n"); }
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
         }
 
         public string Read()
