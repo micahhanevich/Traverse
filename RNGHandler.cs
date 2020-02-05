@@ -8,7 +8,7 @@ namespace Traverse
 {
     class RNGHandler
     {
-        private Location[] BiomePossibilities;
+        public Location[] BiomePossibilities;
 
         public RNGHandler()
         {

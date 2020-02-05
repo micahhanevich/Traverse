@@ -8,7 +8,7 @@ namespace Traverse
 {
     static class Game
     {
-        public static string[] Commands { get; } = new string[] { "help", "?", "where", "go", "move", "set", "test", "quit" };
+        public static string[] Commands { get; } = new string[] { "help", "?", "where", "map", "go", "move", "set", "test", "quit" };
 
         public static string[] Biomes { get; } = new string[] { "forest", "desert", "mountain" };
 
@@ -38,20 +38,24 @@ namespace Traverse
 
         public static int TextSpeedInt;
 
+        public static int Time = 0;
+
         public static Location[,] Map;
 
         public static bool DebugMode = false;
 
+        public static bool History = false;
+
         public static void Close()
         {
-            Print("Press Any Key to Close...", true, 0);
+            Print("Press Any Key to Close...", ConsoleColor.Yellow, true, 0);
             Console.ReadKey();
             Environment.Exit(0);
         }
 
-        public static void Print(string text, bool startline = true, int newlines = 2)
+        public static void Print(string text, ConsoleColor color = ConsoleColor.White, bool startline = true, int newlines = 2)
         {
-            IO.Print(text, startline, newlines);
+            IO.Print(text, color, startline, newlines);
         }
 
         public static string Read()

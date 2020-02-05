@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Traverse.exe" size="19936">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Traverse.exe" size="22496">
       <assemblyIdentity name="Traverse" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>zZC9nwD9euuWOU03sVL1W4olH3s4RSMIFvWaaFuG27o=</dsig:DigestValue>
+        <dsig:DigestValue>LaGo34DoYY/m9jHO2nkVQajHT21t1///NkcLr6Fncmk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

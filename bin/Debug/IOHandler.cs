@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Threading;
 using System.Linq;
-using System.Text;
+using System.Threading;
 
 namespace Traverse
 {
@@ -24,6 +23,7 @@ namespace Traverse
 
         public void Process(string input, bool enableCommandHandling = true)
         {
+            if (!Game.History) { Console.Clear(); }
             input = input.ToLower();
             LastInput = input;
 
@@ -40,16 +40,18 @@ namespace Traverse
             else if (enableCommandHandling) Print(" Invalid Command. (use ? or help)");
         }
 
-        public void Print(string text, bool startline = true, int newlines = 1)
+        public void Print(string text, ConsoleColor color = ConsoleColor.White, bool startline = true, int newlines = 1)
         {
+            Console.ForegroundColor = color;
             if (startline) { Console.Write("\n"); }
             for (int i = 0; i < text.Length; i++)
             {
                 Console.Write(text[i]);
                 if (text[i] == '.') { Thread.Sleep(Game.TextSpeedInt / 2); }
-                else if (text[i] != ' ') { Thread.Sleep(Game.TextSpeedInt); }
+                else if (text[i] != ' ' && text[i] != '[' && text[i] != ']') { Thread.Sleep(Game.TextSpeedInt); }
             }
             for (int i = 0; i < newlines; i++ ) { Console.Write("\n"); }
+            Console.ForegroundColor = ConsoleColor.Green;
         }
 
         public string Read()
