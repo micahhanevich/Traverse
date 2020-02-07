@@ -10,13 +10,13 @@ namespace Traverse
     {
         public static string[] Commands { get; } = new string[] { "help", "?", "where", "map", "go", "move", "set", "test", "quit" };
 
-        public static string[] Biomes { get; } = new string[] { "forest", "desert", "mountain" };
+        public static string[] Biomes { get; } = new string[] { "forest", "sforest", "desert", "mountain", "plains", "splains", "lake", "slake" };
 
         public enum MapSizes { Small, Medium, Large };
 
         public enum TextSpeeds { Slow, Normal, Fast, Instant };
 
-        public enum Discoverables { Item, Creature, Structure };
+        public enum TimeType { Day, Night };
 
         public enum Directions { N, S, E, W };
 
@@ -39,6 +39,8 @@ namespace Traverse
         public static int TextSpeedInt;
 
         public static int Time = 0;
+
+        public static TimeType TimeCycle = TimeType.Day;
 
         public static Location[,] Map;
 

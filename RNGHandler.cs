@@ -8,6 +8,7 @@ namespace Traverse
 {
     class RNGHandler
     {
+        public Choice LastChoice = null;
         public Location[] BiomePossibilities;
 
         public RNGHandler()
@@ -52,18 +53,28 @@ namespace Traverse
         {
             double seed = Game.RNG.NextDouble();
 
+            double total = 0;
+
+            for (int i = 0; i < BiomePossibilities.Length; i++)
+            {                
+                total += BiomePossibilities[i].PlChance;
+            }
+
+            seed *= total;
+
             double lastval = 0.00;
 
             for (int i = 0; i < BiomePossibilities.Length; i++)
             {
-                if (seed >= lastval && seed < BiomePossibilities[i].TestChance + lastval)
+                if (seed >= lastval && seed < BiomePossibilities[i].PlChance + lastval)
                 {
                     return BiomePossibilities[i].Copy(seed);
                 }
-                lastval += BiomePossibilities[i].TestChance;
+                lastval += BiomePossibilities[i].PlChance;
             }
-            throw new Exception();
+            throw new Exception($"Seed outside of possible biome range. #{seed} ; #{lastval}");
         }
+
 
     }
 }

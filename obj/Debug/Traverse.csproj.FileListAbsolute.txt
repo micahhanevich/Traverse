@@ -20,7 +20,6 @@ C:\Users\uicpa\OneDrive\Desktop\Traverse\obj\Debug\Traverse.exe.manifest
 C:\Users\uicpa\OneDrive\Desktop\Traverse\obj\Debug\Traverse.application
 C:\Users\uicpa\OneDrive\Desktop\Traverse\bin\Debug\Discoverable.cs
 C:\Users\uicpa\OneDrive\Desktop\Traverse\bin\Debug\EventHandler.cs
-C:\Users\uicpa\OneDrive\Desktop\Traverse\bin\Debug\InputChunk.cs
 C:\Users\uicpa\OneDrive\Desktop\Traverse\bin\Debug\IOHandler.cs
 C:\Users\uicpa\OneDrive\Desktop\Traverse\bin\Debug\Location.cs
 C:\Users\uicpa\OneDrive\Desktop\Traverse\bin\Debug\Player.cs

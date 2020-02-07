@@ -40,7 +40,14 @@ namespace Traverse
             Game.Print("What do you do?");
             Game.IO.Process(Game.Read());
             if (Game.DebugMode) { Game.Print($"Time is {Game.Time}"); }
+            TimeCheck();
             Game.Print("O\\--o---o---o--/O\\--o---o---o--/O", ConsoleColor.Gray);
+        }
+
+        private void TimeCheck()
+        {
+            if (Game.Time >= 8 && Game.TimeCycle == Game.TimeType.Day) { Game.Time += -16; Game.TimeCycle = Game.TimeType.Night; Game.Print("It is now nighttime...", ConsoleColor.DarkBlue); }
+            if (Game.Time >= 0 && Game.TimeCycle == Game.TimeType.Night) { Game.TimeCycle = Game.TimeType.Day; Game.Print("It is now daytime.", ConsoleColor.DarkYellow); }
         }
 
         private void Help()
@@ -79,8 +86,13 @@ namespace Traverse
                     }
                     else if (Game.Map[j, i] is null) { Game.Print("[?]", ConsoleColor.Black, false, 0); }
                     else if (Game.Map[j, i] is Forest) { Game.Print("[F]", ConsoleColor.Gray, false, 0); }
+                    else if (Game.Map[j, i] is SnowForest) { Game.Print("[F]", ConsoleColor.White, false, 0); }
                     else if (Game.Map[j, i] is Desert) { Game.Print("[D]", ConsoleColor.Gray, false, 0); }
                     else if (Game.Map[j, i] is Mountain) { Game.Print("[M]", ConsoleColor.Gray, false, 0); }
+                    else if (Game.Map[j, i] is Plains) { Game.Print("[P]", ConsoleColor.Gray, false, 0); }
+                    else if (Game.Map[j, i] is SnowPlains) { Game.Print("[P]", ConsoleColor.White, false, 0); }
+                    else if (Game.Map[j, i] is Lake) { Game.Print("[L]", ConsoleColor.Gray, false, 0); }
+                    else if (Game.Map[j, i] is FrozenLake) { Game.Print("[L]", ConsoleColor.White, false, 0); }
                 }
                 Game.Print("\n", ConsoleColor.Black, false, 0);
             }
@@ -156,33 +168,31 @@ namespace Traverse
                         }
                         catch { Game.Print(" Please provide the desired text speed.", ConsoleColor.Red); }
                         break;
-
-                    case "biome":
-                    case "loctype":
-                        if (!Game.DebugMode) { Game.Print($" Invalid Second Parameter: {Game.IO.LastOutput[1]}", ConsoleColor.Red); break; }
+                    case "debug":
+                        Game.DebugMode = !Game.DebugMode;
+                        Game.Print($"Debug Mode: {Game.DebugMode}", ConsoleColor.Yellow);
+                        break;
+                    case "history":
 
                         try
                         {
                             switch (Game.IO.LastOutput[2])
                             {
-                                case "forest":
-                                    Game.Player.Location = new Forest(Game.RNG.NextDouble());
+                                case "t":
+                                case "true":
+                                    Game.History = true;
                                     break;
-                                case "desert":
-                                    Game.Player.Location = new Desert(Game.RNG.NextDouble());
-                                    break;
-                                case "mountain":
-                                    Game.Player.Location = new Mountain(Game.RNG.NextDouble());
+                                case "f":
+                                case "false":
+                                    Game.History = false;
                                     break;
                                 default:
                                     throw new Exception();
                             }
-                            Where();
                         }
-                        catch { Game.Print(" Please provide a valid biome.", ConsoleColor.Red); }
-                        break;
-                    case "debug":
-                        Game.DebugMode = !Game.DebugMode;
+                        catch { Game.History = !Game.History; }
+                        
+                        Game.Print($"History Viewable: {Game.History}", ConsoleColor.Yellow);
                         break;
                     default:
                         throw new Exception();
@@ -198,10 +208,14 @@ namespace Traverse
                 switch (Game.IO.LastOutput[1])
                 {
                     case "genbiome":
-                        var outvar = Game.RNGHandler.GenBiome();
-                        Game.Print($" Test [genbiome] Results\n" +
+                        try
+                        {
+                            var outvar = Game.RNGHandler.GenBiome();
+                            Game.Print($" Test [genbiome] Results\n" +
                             $" # {{{outvar.PrintName}}}\n" +
                             $" # {{{outvar.Seed.ToString()}}}", ConsoleColor.Yellow, true, 1);
+                        }
+                        catch (Exception e) { Game.Print(e.Message); }
                         break;
                     case "gridloc":
                         Game.Print($" Test [gridloc] Results\n" +
@@ -224,6 +238,7 @@ namespace Traverse
             SetHistory();
             GetTextSpeed();
             GetMapSize();
+            Console.Clear();
 
             InitializeMap();
 
@@ -378,7 +393,7 @@ namespace Traverse
                  |:|  |        /:/  /    ~~~~         \:\__\       |:|  |       \::/  /      \:\__\    
                   \|__|        \/__/                   \/__/        \|__|        \/__/        \/__/    
 
-");
+",ConsoleColor.Green);
             Game.Print("You awake to light filtering through leaves above you.\n" +
                 "You lie on the top of a small hill in some woods.\n" +
                 "You Look around, and see trees as far as the eye can see.", ConsoleColor.Gray);
